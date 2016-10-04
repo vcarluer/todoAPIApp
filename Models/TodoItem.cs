@@ -1,8 +1,10 @@
 namespace todoAPIApp.Models
 {
+	using System;
+
 	public class TodoItem
 	{
-		public int Id { get; set; }
+		public Guid Id { get; set; }
 		public string Text { get; set; }		
 	}
 }

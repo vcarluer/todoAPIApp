@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using todoAPIApp.Models;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace todoAPIApp.Controllers
 {
@@ -39,6 +40,14 @@ namespace todoAPIApp.Controllers
 		this._logger.LogInformation("POST received Text: " + item.Text);
 		var id = Guid.NewGuid();
 		this._logger.LogInformation("New ID: {0}", id.ToString());
+		item.Id = id;
+		string json = JsonConvert.SerializeObject(item);
+		if (!Directory.Exists("./data"))
+		{
+			Directory.CreateDirectory("./data");
+		}
+
+		System.IO.File.WriteAllText("./data/" + id.ToString(), json);
 
 		return item.Text;
         }
