@@ -23,14 +23,34 @@ namespace todoAPIApp.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+		List<string> idList = new List<string>();
+		if (Directory.Exists("./data"))
+		{
+			var filePaths = Directory.EnumerateFiles("./data");
+			foreach(var path in filePaths)
+			{
+				idList.Add(Path.GetFileNameWithoutExtension(path));
+			}
+		}
+
+		return idList;
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public string Get(string id)
         {
-            return id.ToString();
+		string filePath = "./data/" + id;
+		this._logger.LogInformation("Getting {0}", filePath);
+		if (System.IO.File.Exists(filePath))
+		{
+			return System.IO.File.ReadAllText(filePath);
+		}
+		else
+		{
+			Response.StatusCode = 404;
+			return String.Empty;
+		}
         }
 
         // POST api/values
