@@ -36,12 +36,10 @@ namespace todoAPIApp.Controllers
         [HttpPost]
         public string Post([FromBody]TodoItem item)
         {
-
 		this._logger.LogInformation("POST received Text: " + item.Text);
-		this._logger.LogInformation("POST received Id: " + item.Id);
-		//StreamWriter writer = new StreamWriter();
-		//writer.WriteLine(item.Text);
-		//writer.Close();
+		var id = Guid.NewGuid();
+		this._logger.LogInformation("New ID: {0}", id.ToString());
+
 		return item.Text;
         }
 
